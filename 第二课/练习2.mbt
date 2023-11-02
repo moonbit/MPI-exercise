@@ -8,7 +8,7 @@ fn 平均数(i1: Int, i2: Int) -> Int {
 
 fn checkResult(i1: Int, i2: Int, expected: Int) {
   result := 平均数(i1, i2)
-  if result == expected {} else { abort("对\(i1)与\(i2)的平均数操作结果应为\(expected)，实为\(result)") }
+  if result == expected { () } else { abort("对\(i1)与\(i2)的平均数操作结果应为\(expected)，实为\(result)") }
 }
 
 fn init {

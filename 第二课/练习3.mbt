@@ -10,7 +10,7 @@ fn checkResult(f1: Double, f2: Double, expected: Bool) {
   result := 比较小数(f1, f2)
   str1 := f1.to_string()
   str2 := f2.to_string()
-  if result == expected {} else { abort("对\(str1)与\(str2)相等这一事实的判断应为\(expected)，实为\(result)") }
+  if result == expected { () } else { abort("对\(str1)与\(str2)相等这一事实的判断应为\(expected)，实为\(result)") }
 }
 
 fn init {

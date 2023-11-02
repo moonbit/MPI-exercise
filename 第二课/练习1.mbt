@@ -9,7 +9,7 @@ fn 异或(b1: Bool, b2: Bool) -> Bool {
 fn checkResult(b1: Bool, b2: Bool) {
   result := 异或(b1, b2)
   expected := b1 != b2
-  if result == expected {} else { abort("对\(b1)与\(b2)的异或操作结果应为\(expected)，实为\(result)") }
+  if result == expected { () } else { abort("对\(b1)与\(b2)的异或操作结果应为\(expected)，实为\(result)") }
 }
 
 fn init {
