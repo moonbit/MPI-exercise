@@ -6,6 +6,8 @@ fn 异或(b1: Bool, b2: Bool) -> Bool {
   abort("请将abort开头的代码行替换为你对b1与b2进行异或运算的表达式，用或、与、非实现")
 }
 
+// -----请忽略以下内容-----
+
 fn checkResult(b1: Bool, b2: Bool) {
   result := 异或(b1, b2)
   expected := b1 != b2

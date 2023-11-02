@@ -6,6 +6,8 @@ fn 比较小数(f1: Double, f2: Double) -> Bool {
   abort("请将abort开头的代码行替换为你对f1与f2进行比较的表达式，精确到小数点后1位")
 }
 
+// -----请忽略以下内容-----
+
 fn checkResult(f1: Double, f2: Double, expected: Bool) {
   result := 比较小数(f1, f2)
   str1 := f1.to_string()

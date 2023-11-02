@@ -6,6 +6,8 @@ fn 平均数(i1: Int, i2: Int) -> Int {
   abort("请将abort开头的代码行替换为你对i1与i2进行平均数计算的表达式，小心溢出")
 }
 
+// -----请忽略以下内容-----
+
 fn checkResult(i1: Int, i2: Int, expected: Int) {
   result := 平均数(i1, i2)
   if result == expected { () } else { abort("对\(i1)与\(i2)的平均数操作结果应为\(expected)，实为\(result)") }
