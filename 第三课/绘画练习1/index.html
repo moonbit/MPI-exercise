@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>画你所想</title>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById("canvas");
+        const context = canvas.getContext("2d");
+
+        const buffer = new Array();
+
+        const importObject = {
+            spectest: {
+                print_i32: (x) => buffer.push(String(x)),
+                print_f64: (x) => buffer.push(String(x)),
+                print_char: (x) => buffer.push(String.fromCharCode(x))
+            }
+        }
+
+        const SIZE = 500;
+        canvas.width = SIZE
+        canvas.height = SIZE
+
+        WebAssembly.instantiateStreaming(fetch("./draw.wasm"), importObject).then((obj) => {
+            function redraw(ctx, value) {
+                const array = new Uint8ClampedArray(SIZE * SIZE * 4);
+                for (let i = 0; i < SIZE; i++) {
+                    for (let j = 0; j < SIZE; j++) {
+                        const color = obj.instance.exports["pixel"](j, i, SIZE, SIZE, value)
+                        array[(SIZE - i) * SIZE * 4 + j * 4] = color >> 16 & 0xFF
+                        array[(SIZE - i) * SIZE * 4 + j * 4 + 1] = color >> 8 & 0xFF
+                        array[(SIZE - i) * SIZE * 4 + j * 4 + 2] = color & 0xFF
+                        array[(SIZE - i) * SIZE * 4 + j * 4 + 3] = 255
+                    }
+                }
+                const newImageData = new ImageData(array, SIZE)
+                ctx.putImageData(newImageData, 0, 0);
+            }
+            redraw(context, 0)
+            document.getElementById("red").addEventListener('input', ({target}) => {
+                redraw(context, target.value)
+            })
+        })
+    </script>
+</body>
+
+</html>
