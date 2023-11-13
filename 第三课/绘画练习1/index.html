@@ -12,13 +12,9 @@
         const canvas = document.getElementById("canvas");
         const context = canvas.getContext("2d");
 
-        const buffer = new Array();
-
         const importObject = {
             spectest: {
-                print_i32: (x) => buffer.push(String(x)),
-                print_f64: (x) => buffer.push(String(x)),
-                print_char: (x) => buffer.push(String.fromCharCode(x))
+                print_char: (x) => console.log(String.fromCharCode(x))
             }
         }
 
