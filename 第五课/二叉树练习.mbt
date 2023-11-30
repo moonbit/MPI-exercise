@@ -1,5 +1,4 @@
 // 现有如下二叉树定义
-
 enum IntTree {
   Node(Int, IntTree, IntTree) // 树中的数据、左子树、右子树
   Empty // 空树
@@ -25,6 +24,15 @@ fn array_to_tree(array: Array[Option[Int]]) -> IntTree {
   abort("请实现数组转二叉树的函数")
 }
 
+// 现在，请尝试判断一棵树是否为二叉搜索树
+// 事实上，只需要一次中序遍历，判断数字是否从小到大递增即可完成
+fn is_binary_search_tree(tree: IntTree) -> Bool {
+  // 你可能会需要下方这个辅助函数
+  // fn helper(tree: IntTree, previous_number: Option[Int]) -> Bool {
+  // }
+  abort("请实现判断二叉搜索树的函数")
+}
+
 // 现在，请实现从二叉搜索树中删除元素的函数
 // 删除拥有两个子树的根节点时请用左子树最大值替换根节点
 fn remove_element(tree: IntTree, n: Int) -> IntTree {
@@ -43,6 +51,12 @@ fn init {
   checkResult(array_to_tree([Some(0), None, Some(1)]), Node(0, Empty, Node(1, Empty, Empty)))
   checkResult(array_to_tree([Some(0), Some(1), Some(2), Some(3), Some(4)]), Node(0, Node(1, Node(3, Empty, Empty), Node(4, Empty, Empty)), Node(2, Empty, Empty)))
   println("恭喜你，完成了数组转二叉树的练习。")
+
+  checkResult(is_binary_search_tree(array_to_tree([])), true)
+  checkResult(is_binary_search_tree(array_to_tree([Some(0)])), true)
+  checkResult(is_binary_search_tree(array_to_tree([Some(0), Some(1), Some(2)])), false)
+  checkResult(is_binary_search_tree(array_to_tree([Some(2), Some(0), Some(3)])), true)
+  println("恭喜你，完成了判断二叉搜索树的练习")
 
   let bst = array_to_tree([Some(5), Some(2), Some(7), Some(1), Some(4), Some(6), None])
   checkResult(remove_element(bst, 10), bst)
