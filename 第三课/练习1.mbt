@@ -29,3 +29,8 @@ fn init {
   checkResult(reverse(Cons(2, Cons(1, Nil))), Cons(1, Cons(2, Nil)))
   println("恭喜你，完成了练习。")
 }
+
+enum List[T] {
+  Nil
+  Cons(T, List[T])
+}
