@@ -42,7 +42,3 @@ fn init {
   checkResult(compute(SumExp(IntExp(1), SumExp(IntExp(1), SumExp(IntExp(1), IntExp(1))))), 4)
   println("恭喜你，完成了练习")
 }
-
-fn checkResult[T: Eq + Show](v1: T, v2: T) {
-  if v1 == v2 { () } else { abort("\(v1)与\(v2)不相等") }
-}

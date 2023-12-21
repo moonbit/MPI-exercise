@@ -8,16 +8,17 @@ fn 比较小数(f1: Double, f2: Double) -> Bool {
 
 // -----请忽略以下内容-----
 
-fn checkResult(f1: Double, f2: Double, expected: Bool) {
-  let result = 比较小数(f1, f2)
-  let str1 = f1.to_string()
-  let str2 = f2.to_string()
-  if result == expected { () } else { abort("对\(str1)与\(str2)相等这一事实的判断应为\(expected)，实为\(result)") }
-}
-
 fn init {
-  checkResult(0.1 + 0.2, 0.3, true)
-  checkResult(0.1 + 0.1, 0.2, true)
-  checkResult(0.1, 0.2, false)
+  fn check(f1: Double, f2: Double, expected: Bool) {
+    let result = 比较小数(f1, f2)
+    checkResultWithMessage(result, expected, fn (f1, f2) {
+      let str1 = f1.to_string()
+      let str2 = f2.to_string()
+      "对\(str1)与\(str2)相等这一事实的判断应为\(expected)，实为\(result)"
+    })
+  }
+  check(0.1 + 0.2, 0.3, true)
+  check(0.1 + 0.1, 0.2, true)
+  check(0.1, 0.2, false)
   println("恭喜你，完成了练习。")
 }

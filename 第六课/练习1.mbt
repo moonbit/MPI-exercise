@@ -51,20 +51,6 @@ fn reverse[T](self: List[T]) -> List[T] { // 辅助函数：反转堆栈
 
 
 // -----请忽略以下内容-----
-enum List[T] {
-  Nil
-  Cons(T, List[T])
-} derive (Show, Eq)
-enum Option[T] {
-  None
-  Some(T)
-} derive (Show, Eq)
-fn checkResult[T: Eq + Show](v1: T, v2: T) {
-  if v1 == v2 { () } else { abort("\(v1)与\(v2)不相等") }
-}
-fn checkResultWithMessage[T: Eq](v1: T, v2: T, message: String) {
-  if v1 == v2 { () } else { abort(message) }
-}
 
 fn init {
   checkResultWithMessage((Stack::empty() : Stack[Unit]).pop().0, None, "空堆栈取出元素应当为空")

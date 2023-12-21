@@ -41,10 +41,6 @@ fn remove_element(tree: IntTree, n: Int) -> IntTree {
 
 // -----请忽略以下内容-----
 
-fn checkResult[T: Eq + Show](v1: T, v2: T) {
-  if v1 == v2 { () } else { abort("\(v1)与\(v2)不相等") }
-}
-
 fn init {
   checkResult(array_to_tree([]), Empty)
   checkResult(array_to_tree([Some(0)]), Node(0, Empty, Empty))

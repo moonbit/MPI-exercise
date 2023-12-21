@@ -4,18 +4,6 @@ fn find(predicate: (Int) -> Bool, list: List[Int]) -> Option[Int] {
 
 // -----请忽略以下内容-----
 
-fn checkResult[T: Eq + Show](v1: T, v2: T) {
-  if v1 == v2 { () } else { abort("\(v1)与\(v2)不相等") }
-}
-
-fn op_equal[T: Eq](self: Option[T], other: Option[T]) -> Bool {
-  match (self, other) {
-    (None, None) => true
-    (Some(a), Some(b)) => a == b
-    _ => false
-  }
-}
-
 fn to_string[T: Show](self: Option[T]) -> String {
   match self {
     None => "None"

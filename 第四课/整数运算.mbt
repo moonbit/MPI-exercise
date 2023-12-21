@@ -43,10 +43,6 @@ fn divide(self: ComputeResult, b: Int) -> ComputeResult {
 
 // -----请忽略以下内容-----
 
-fn checkResult[T: Eq + Show](v1: T, v2: T) {
-  if v1 == v2 { () } else { abort("\(v1)与\(v2)不相等") }
-}
-
 fn to_string(self: ComputeResult) -> String {
   match self {
     Success(i) => "Success\(i)"

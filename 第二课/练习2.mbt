@@ -8,16 +8,15 @@ fn 平均数(i1: Int, i2: Int) -> Int {
 
 // -----请忽略以下内容-----
 
-fn checkResult(i1: Int, i2: Int, expected: Int) {
-  let result = 平均数(i1, i2)
-  if result == expected { () } else { abort("对\(i1)与\(i2)的平均数操作结果应为\(expected)，实为\(result)") }
-}
-
 fn init {
-  checkResult(0, 0, 0)
-  checkResult(2, 2, 2)
-  checkResult(4, 6, 5)
-  checkResult(2, 2147483646, 1073741824)
-  checkResult(2147483646, 2147483646, 2147483646)
+  fn check(i1: Int, i2: Int, expected: Int) {
+    let result = 平均数(i1, i2)
+    checkResultWithMessage(result, expected, fn (i1, i2) { "对\(i1)与\(i2)的平均数操作结果应为\(expected)，实为\(result)" })
+  }
+  check(0, 0, 0)
+  check(2, 2, 2)
+  check(4, 6, 5)
+  check(2, 2147483646, 1073741824)
+  check(2147483646, 2147483646, 2147483646)
   println("恭喜你，完成了练习。")
 }

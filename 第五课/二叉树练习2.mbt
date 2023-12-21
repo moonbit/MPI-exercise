@@ -36,29 +36,6 @@ fn is_balanced(self: AVLTree) -> Bool {
   }
 }
 
-fn fold_left[A, B](self: List[A], f: (B, A) -> B, b: B) -> B {
-  match self {
-    Nil => b
-    Cons(hd, tl) => tl.fold_left(f, f(b, hd))
-  }
-}
-
-fn checkResult[T: Eq + Show](v1: T, v2: T) {
-  if v1 == v2 { () } else { abort("\(v1)与\(v2)不相等") }
-}
-
-fn checkResultWithMessage[T: Eq](v1: T, v2: T, message: String) {
-  if v1 == v2 { () } else { abort(message) }
-}
-
-fn op_equal[T: Eq](self: Option[T], other: Option[T]) -> Bool {
-  match (self, other) {
-    (None, None) => true
-    (Some(v1), Some(v2)) => v1 == v2
-    _ => false
-  }
-}
-
 fn init {
   let tree = List::Cons(1, Cons(2, Cons(3, Cons(0, Cons(-5, Cons(-8, Cons(100, Cons(2048, Nil)))))))).fold_left(insert, Empty)
   checkResultWithMessage(tree.contains(3), true, "树中应当有3：\(tree)")
