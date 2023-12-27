@@ -4,13 +4,6 @@ fn find(predicate: (Int) -> Bool, list: List[Int]) -> Option[Int] {
 
 // -----请忽略以下内容-----
 
-fn to_string[T: Show](self: Option[T]) -> String {
-  match self {
-    None => "None"
-    Some(s) => "Some(\(s))"
-  }
-}
-
 fn init {
   checkResult(find(fn (i){ i == 0 }, Nil), None)
   checkResult(find(fn (i) { i.is_non_neg() }, Cons(-1, Cons(0, Cons(1, Nil)))), Some(0))

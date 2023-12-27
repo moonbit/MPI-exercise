@@ -6,19 +6,19 @@ enum ComputeResult {
 
 // 请基于上述数据类型，定义整数的四则运算
 
-fn plus(self: Int, b: Int) -> ComputeResult {
+fn plus_int(a: Int, b: Int) -> ComputeResult {
   abort("请定义整数加法")
 }
 
-fn minus(self: Int, b: Int) -> ComputeResult {
+fn minus_int(a: Int, b: Int) -> ComputeResult {
   abort("请定义减法")
 }
 
-fn multiply(self: Int, b: Int) -> ComputeResult {
+fn multiply_int(a: Int, b: Int) -> ComputeResult {
   abort("请定义乘法")
 }
 
-fn divide(self: Int, b: Int) -> ComputeResult {
+fn divide_int(a: Int, b: Int) -> ComputeResult {
   abort("请定义除法")
 }
 
@@ -61,11 +61,11 @@ fn op_equal(self: ComputeResult, other: ComputeResult) -> Bool {
 }
 
 fn init {
-  checkResult((1).plus(2), Success(3))
-  checkResult((0).minus(1), Success(-1))
-  checkResult((2_147_483_647).plus(1), Overflow)
-  checkResult((-2_147_483_648).minus(100000), Overflow)
-  checkResult((100).divide(0), DivideByZero)
+  checkResult(plus_int(1, 2), Success(3))
+  checkResult(minus_int(0, 1), Success(-1))
+  checkResult(plus_int(2_147_483_647, 1), Overflow)
+  checkResult(minus_int(-2_147_483_648, 100000), Overflow)
+  checkResult(divide_int(100, 0), DivideByZero)
   checkResult(ComputeResult::Overflow.plus(1), Overflow)
   checkResult(ComputeResult::DivideByZero.minus(100), DivideByZero)
   println("恭喜你，完成了练习。")
