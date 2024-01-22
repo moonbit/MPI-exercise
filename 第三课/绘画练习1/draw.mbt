@@ -7,7 +7,8 @@ fn draw(x : Int, y : Int) -> (Int, Int, Int) {
   // 例：这是一轮明月。你能补全月光下的景色吗？
   if (x - 350) * (x - 350) + (y - 400) * (y - 400) < 100 { (255, 255, 255) } else { (0, 0, 0) } 
 }
-// 2. 完成定义后，请将此文件编译为WASM（可在左侧资源管理器右击此文件）（每次修改需重复此步骤）
+// 2(1). 完成定义后，请将此文件编译为WASM（可在左侧资源管理器右击此文件）（每次修改需重复此步骤）
+// 2(2). 若使用带后端的开发环境，可以在此目录下运行 moonc compile picture.mbt -o picture.wasm -wasm-gc，Safari用户请不要添加-wasm-gc选项
 // 3(1). 之后，Github或Gitpod用户请安装live-preview插件，右击同一文件夹内的index.html，选择Show Preview
 // 3(2). Coding.net用户请打开终端，并运行 python3 -m http.server 8000 ，并在新窗口中复制原窗口链接，并加上/proxy/8000
 // 4. 最后找到“第三课/绘画练习1”进行访问
