@@ -13,14 +13,15 @@
     <canvas id="photo"></canvas>
     <label>处理后画面</label>
     <canvas id="canvas"></canvas>
-    <script>
+    <script type="module">
+        import { pixel } from '../../target/js/release/build/第三课/图像处理练习/图像处理练习.js';
         const photo = document.getElementById("photo");
         const photoCtx = photo.getContext("2d");
 
         const canvas = document.getElementById("canvas");
         const context = canvas.getContext("2d");
 
-        var imageData = null;
+        let imageData = null;
 
         const SIZE = 500;
         photo.width = SIZE
@@ -30,50 +31,41 @@
 
         const file = document.getElementById("file");
 
-        const importObject = {
-            image: {
-                get: (x, y) => {
-                    if (x < 0 || x >= SIZE || y < 0 || y >= SIZE || !imageData) return -1;
-                    const x_ = Math.max(0, Math.min(SIZE, x)), y_ = Math.max(0, Math.min(SIZE, y));
-                    const r = imageData.data[((SIZE - y_) * SIZE + x_) * 4], g = imageData.data[((SIZE - y_) * SIZE + x_) * 4 + 1], b = imageData.data[((SIZE - y_) * SIZE + x_) * 4 + 2];
-                    return r << 16 | g << 8 | b;
-                }
-            },
-            spectest: {
-                print_char: (x) => console.log(String.fromCharCode(x))
-            }
+        globalThis.getPixel = (x, y) => {
+            if (x < 0 || x >= SIZE || y < 0 || y >= SIZE || !imageData) return -1;
+            const x_ = Math.max(0, Math.min(SIZE, x)), y_ = Math.max(0, Math.min(SIZE, y));
+            const r = imageData.data[((SIZE - y_) * SIZE + x_) * 4], g = imageData.data[((SIZE - y_) * SIZE + x_) * 4 + 1], b = imageData.data[((SIZE - y_) * SIZE + x_) * 4 + 2];
+            return r << 16 | g << 8 | b;
         }
 
-        WebAssembly.instantiateStreaming(fetch("./picture.wasm"), importObject).then((obj) => {
-            function redraw(ctx) {
-                const array = new Uint8ClampedArray(SIZE * SIZE * 4);
-                for (let i = 0; i < SIZE; i++) {
-                    for (let j = 0; j < SIZE; j++) {
-                        const color = obj.instance.exports["pixel"](j, i, SIZE, SIZE)
-                        array[(SIZE - i) * SIZE * 4 + j * 4] = color >> 16 & 0xFF
-                        array[(SIZE - i) * SIZE * 4 + j * 4 + 1] = color >> 8 & 0xFF
-                        array[(SIZE - i) * SIZE * 4 + j * 4 + 2] = color & 0xFF
-                        array[(SIZE - i) * SIZE * 4 + j * 4 + 3] = 255
-                    }
+        function redraw(ctx) {
+            const array = new Uint8ClampedArray(SIZE * SIZE * 4);
+            for (let i = 0; i < SIZE; i++) {
+                for (let j = 0; j < SIZE; j++) {
+                    const color = pixel(j, i)
+                    array[(SIZE - i) * SIZE * 4 + j * 4] = color >> 16 & 0xFF
+                    array[(SIZE - i) * SIZE * 4 + j * 4 + 1] = color >> 8 & 0xFF
+                    array[(SIZE - i) * SIZE * 4 + j * 4 + 2] = color & 0xFF
+                    array[(SIZE - i) * SIZE * 4 + j * 4 + 3] = 255
                 }
-                const newImageData = new ImageData(array, SIZE)
-                ctx.putImageData(newImageData, 0, 0);
             }
-            file.addEventListener("change", (event) => {
-                const file = event.target.files[0];
-                const reader = new FileReader();
+            const newImageData = new ImageData(array, SIZE)
+            context.putImageData(newImageData, 0, 0);
+        }
+        file.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            const reader = new FileReader();
 
-                reader.onload = function (e) {
-                    const img = new Image(SIZE, SIZE);
-                    img.onload = () => {
-                        photoCtx.drawImage(img, 0, 0, SIZE, SIZE);
-                        imageData = photoCtx.getImageData(0, 0, SIZE, SIZE);
-                        redraw(context)
-                    }
-                    img.src = e.target.result;
+            reader.onload = function (e) {
+                const img = new Image(SIZE, SIZE);
+                img.onload = () => {
+                    photoCtx.drawImage(img, 0, 0, SIZE, SIZE);
+                    imageData = photoCtx.getImageData(0, 0, SIZE, SIZE);
+                    redraw(context)
                 }
-                reader.readAsDataURL(file);
-            })
+                img.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
         })
     </script>
 </body>

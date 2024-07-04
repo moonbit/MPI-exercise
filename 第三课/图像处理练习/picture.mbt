@@ -6,12 +6,16 @@
 fn draw(x : Int, y : Int) -> (Int, Int, Int) {
   // 1. 请在此处定义你的图像函数
   // 例：这个图像操作对每个像素周围9个像素取平均值。你看到了什么效果？参考：图像卷积
-  fn get_or_else(v: Option[(Int, Int, Int)], default: (Int, Int, Int)) -> (Int, Int, Int) {
+  fn get_or_else(
+    v : (Int, Int, Int)?,
+    default : (Int, Int, Int)
+  ) -> (Int, Int, Int) {
     match v {
       None => default
       Some(val) => val
     }
   }
+
   let l1b1 = get_or_else(getPixel(x - 1, y - 1), (0, 0, 0))
   let l1 = get_or_else(getPixel(x - 1, y), (0, 0, 0))
   let l1u1 = get_or_else(getPixel(x - 1, y + 1), (0, 0, 0))
@@ -21,19 +25,17 @@ fn draw(x : Int, y : Int) -> (Int, Int, Int) {
   let r1b1 = get_or_else(getPixel(x + 1, y - 1), (0, 0, 0))
   let r1 = get_or_else(getPixel(x + 1, y), (0, 0, 0))
   let r1u1 = get_or_else(getPixel(x + 1, y + 1), (0, 0, 0))
-
   (
     (l1b1.0 + l1.0 + l1u1.0 + b1.0 + p.0 + u1.0 + r1b1.0 + r1.0 + r1u1.0) / 9,
     (l1b1.1 + l1.1 + l1u1.1 + b1.1 + p.1 + u1.1 + r1b1.1 + r1.1 + r1u1.1) / 9,
     (l1b1.2 + l1.2 + l1u1.2 + b1.2 + p.2 + u1.2 + r1b1.2 + r1.2 + r1u1.2) / 9,
   )
 }
-// 2(1). 完成定义后，请将此文件编译为WASM（可在左侧资源管理器右击此文件）（每次修改需重复此步骤）
-// 2(2). 若使用带后端的开发环境，可以在此目录下运行 moonc compile picture.mbt -o picture.wasm -wasm-gc，Safari用户请不要添加-wasm-gc选项
+// 2. 完成定义后，运行moon build --target js进行编译。
 // 3(1). 之后，Github或Gitpod用户请安装live-preview插件，右击同一文件夹内的index.html，选择Show Preview
 // 3(2). Coding.net用户请打开终端，并运行 python3 -m http.server 8000 ，并在新窗口中复制原窗口链接，并加上/proxy/8000
-// 4. 最后找到“第三课/绘画练习1”进行访问
-// 5. 如有其他疑问，请在论坛或群里反馈。也欢迎分享你的画作。
+// 3(3). 本地开发用户请打开终端，并运行 python3 -m http.server 8000 ，并访问http://localhost:8000/第三课/图像处理练习/
+// 4. 如有其他疑问，请在论坛或群里反馈。也欢迎分享你的画作。
 
 // -----请忽略以下内容-----
 
@@ -42,9 +44,10 @@ pub fn pixel(x : Int, y : Int, _width : Int, _height : Int) -> Int {
   r.land(255).lsl(16).lor(g.land(255).lsl(8).lor(b.land(255)))
 }
 
-fn getPixel0(x: Int, y: Int) -> Int = "image" "get"
+extern "js" fn getPixel0(x : Int, y : Int) -> Int =
+  #|(x, y) => globalThis.getPixel(x, y)
 
-fn getPixel(x: Int, y: Int) -> Option[(Int, Int, Int)] {
+fn getPixel(x : Int, y : Int) -> (Int, Int, Int)? {
   let val = getPixel0(x, y)
   if val == -1 {
     None
@@ -55,4 +58,3 @@ fn getPixel(x: Int, y: Int) -> Option[(Int, Int, Int)] {
     Some((r, g, b))
   }
 }
-

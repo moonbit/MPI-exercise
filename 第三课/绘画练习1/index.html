@@ -8,7 +8,8 @@
 
 <body>
     <canvas id="canvas"></canvas>
-    <script>
+    <script type="module">
+        import { pixel } from '../../target/js/release/build/第三课/绘画练习1/绘画练习1.js';
         const canvas = document.getElementById("canvas");
         const context = canvas.getContext("2d");
 
@@ -19,15 +20,18 @@
         }
 
         const SIZE = 500;
-        canvas.width = SIZE
+        canvas.width = SIZE;
         canvas.height = SIZE
 
-        WebAssembly.instantiateStreaming(fetch("./draw.wasm"), importObject).then((obj) => {
-            function redraw(ctx) {
+        let lastTime = 0;
+
+        function draw(time) {
+            if (time - lastTime > 200) {
+                lastTime = time;
                 const array = new Uint8ClampedArray(SIZE * SIZE * 4);
                 for (let i = 0; i < SIZE; i++) {
                     for (let j = 0; j < SIZE; j++) {
-                        const color = obj.instance.exports["pixel"](j, i, SIZE, SIZE)
+                        const color = pixel(j, i, time)
                         array[(SIZE - i) * SIZE * 4 + j * 4] = color >> 16 & 0xFF
                         array[(SIZE - i) * SIZE * 4 + j * 4 + 1] = color >> 8 & 0xFF
                         array[(SIZE - i) * SIZE * 4 + j * 4 + 2] = color & 0xFF
@@ -35,13 +39,13 @@
                     }
                 }
                 const newImageData = new ImageData(array, SIZE)
-                ctx.putImageData(newImageData, 0, 0);
+                context.putImageData(newImageData, 0, 0);
             }
-            redraw(context)
-            document.getElementById("red").addEventListener('input', ({target}) => {
-                redraw(context, target.value)
-            })
-        })
+
+            requestAnimationFrame(draw)
+        }
+
+        requestAnimationFrame(draw)
     </script>
 </body>
 
