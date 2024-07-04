@@ -6,12 +6,32 @@
 // ***
 // ****
 // *****
-fn init {
-  println("===第七课练习1===")
-  // 提示：使用变量+循环
+fn 输出星星(println : (String) -> Unit) -> Unit {
+  // 使用 变量 while 循环
   let mut i = 0
-  while i < 5, i = i + 1 {
+  while i < 5 {
     // 该怎么做呢？
+    i = i + 1
   }
-  println("===第七课练习1===")
+}
+
+test "第七课练习1" {
+  let buffer = Buffer::new()
+  fn println(content : String) -> Unit {
+    buffer.write_string(content)
+    buffer.write_char('\n')
+  }
+
+  输出星星(println)
+  inspect(
+    buffer.to_string(),
+    content=
+      #|*
+      #|**
+      #|***
+      #|****
+      #|*****
+      #|
+    ,
+  )!
 }
